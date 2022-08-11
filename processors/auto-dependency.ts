@@ -11,18 +11,18 @@
  */
  export default function (page: any) {
   // Search for all elements on page with a data-dependencies attribute and turn into an Array
-  const elementsWithDepenencies = Array.from(
+  const elementsWithDependencies = Array.from(
     page.document.querySelectorAll('[data-dependencies]')
   );
   // If none found, finish processing
-  if (elementsWithDepenencies.length === 0) return;
+  if (elementsWithDependencies.length === 0) return;
 
   // For each element in the list,
   // get data-dependencies attribute,
   //   split the string each list (to allow for multiple dependencies)
   //   and trim whitespace
   // then flatten the list (un-nest lists)
-  const fullDependencyList = elementsWithDepenencies
+  const fullDependencyList = elementsWithDependencies
     .map((element: any) =>
       element
         .getAttribute('data-dependencies')
