@@ -18,6 +18,12 @@ Annotations such as this:
 <div data-dependencies='/js/optional-script.js'>...</div>
 ```
 
+or to specify multiple dependencies
+
+```html
+<div data-dependencies='/js/optional-script.js, /js/another-script.js'>...</div>
+```
+
 Will result in the following being added to the head
 
 ```html
