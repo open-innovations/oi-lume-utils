@@ -39,4 +39,4 @@ site.process(['.html'], autoDependency)
 ```
 
 NB - if you are using the [`base_path` plugin](https://lume.land/plugins/base_path/), make sure that is loaded after this processor,
-or any script URLs are 
+so any local absolute script URLs are properly transformed.
