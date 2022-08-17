@@ -4,6 +4,20 @@
 
 [![](https://data.jsdelivr.com/v1/package/gh/open-innovations/oi-lume-utils/badge)](https://www.jsdelivr.com/package/gh/open-innovations/oi-lume-utils)
 
+## loaders
+
+### csv-loader
+
+Usage:
+
+```js
+import csvLoader from 'https://cdn.jsdelivr.net/gh/open-innovations/oi-lume-utils@<version>/loaders/csv-loader.ts';
+
+site.loader(['.csv'], csvLoader);
+```
+
+TODO - Documentation!
+
 ## processors
 
 This library includes a series of processors for use in Lume.
