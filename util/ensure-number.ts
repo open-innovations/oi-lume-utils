@@ -1,0 +1,1 @@
+export const ensureFloat = (value: (string | number)) => typeof value === 'number' ? value : parseFloat(value);
