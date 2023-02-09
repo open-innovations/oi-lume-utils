@@ -38,13 +38,21 @@
 
   // For each deduplicated depdency
   deduplicatedDependencies.forEach(dependency => {
-    // Create a new script element
-    const newScriptElement = page.document.createElement('script');
-    // Set the src attribute
-    newScriptElement.setAttribute('src', dependency);
-    // And set a data-auto-depdendency attribute
-    newScriptElement.setAttribute('data-auto-dependency', true);
-    // Then append to the document head
-    page.document.head.appendChild(newScriptElement);
+	if(dependency.indexOf('.css')>0){
+		// Create a new link element
+		const newElement = page.document.createElement('link');
+		// Set the src attribute
+		newElement.setAttribute('href', dependency);
+		newElement.setAttribute('rel', 'stylesheet');
+	}else{
+		// Create a new script element
+		const newElement = page.document.createElement('script');
+		// Set the src attribute
+		newElement.setAttribute('src', dependency);
+	}
+	// And set a data-auto-depdendency attribute
+	newElement.setAttribute('data-auto-dependency', true);
+	// Then append to the document head
+	page.document.head.appendChild(newElement);
   });
 }
