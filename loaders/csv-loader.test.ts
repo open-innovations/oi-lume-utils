@@ -4,7 +4,7 @@ import {
   resolvesNext,
   stub,
 } from 'https://deno.land/std@0.149.0/testing/mock.ts';
-import csvLoader from './csv-loader.ts';
+import csvLoader, { isNumeric } from './csv-loader.ts';
 
 Deno.test('url test', async (t) => {
   const fakeReadTextFile = stub(
@@ -109,4 +109,19 @@ Deno.test('rejects empty strings', async () => {
   assertEquals(result.data, [
     [1, 2],
     [2, NaN]]);
+})
+
+Deno.test('isNumeric', async (t) => {
+  const numeric = [
+    12, 12.0, 12.2, "10", "10.0", "10.2", 1e3, "1e3"
+  ];
+  for (const value of numeric) {
+    await t.step(`${JSON.stringify(value)} is numeric`, () => assertEquals(isNumeric(value), true));
+  }
+  const nonNumeric = [
+    "2022/23",
+  ];
+  for (const value of nonNumeric) {
+    await t.step(`${JSON.stringify(value)} is non numeric`, () => assertEquals(isNumeric(value), false));
+  }
 })

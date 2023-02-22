@@ -5,11 +5,15 @@ const FLOAT = 'float';
 const STRING = 'string';
 const HEADER_SEPARATOR = '---';
 
+export function isNumeric(value: unknown): boolean {
+  return !isNaN(value as number);
+}
+
 function guessType(value: string) {
   if (['', undefined].includes(value)) return null;
 
   // Don't include things that parse as numbers but which also contain other things e.g. "2002/03"
-  if (isFinite(parseFloat(value)) && parseFloat(value).toString() === value) {
+  if (isNumeric(value)) {
     return FLOAT;
   }
 
