@@ -1,4 +1,4 @@
-import { parse } from 'std/encoding/csv.ts';
+import { parse } from '../deps.ts';
 import { transpose, range, ensureFloat } from '../util/mod.ts';
 
 const FLOAT = 'float';
@@ -35,7 +35,7 @@ function typeConvert(value: string, type: string): string | number {
 
 export default async function csvLoader(path: string) {
   const text = await Deno.readTextFile(path);
-  let raw = await (<Promise<string[][]>>parse(text));
+  let raw = parse(text);
 
   const width = raw[0].length;
 
