@@ -66,7 +66,7 @@ function typeConvert(value: string, type: string): string | number {
 /**
  * Loads CSV specified at path into CSV data structure.
  *
- * This is a a Lume processor.
+ * This is a Lume processor.
  *
  * ```js
  * import csvLoader from './csv-loader.ts';
