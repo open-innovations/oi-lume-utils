@@ -12,7 +12,7 @@ For many uses, the standard [Sheets plugin](https://lume.land/plugins/sheets/) i
 ```js
 import csvLoader from 'oi_lume_utils/loaders/csv-loader.ts';
 
-site.loader(['.csv'], csvLoader);
+site.loadData(['.csv'], csvLoader);
 ```
 
 Any `.csv` files in `_data` directories will now be loaded with the CSV loader.
