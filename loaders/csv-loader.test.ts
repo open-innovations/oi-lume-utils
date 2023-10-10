@@ -1,12 +1,12 @@
-import { assertEquals } from 'https://deno.land/std@0.149.0/testing/asserts.ts';
+import { assertEquals } from 'std/assert/mod.ts';
 import {
   assertSpyCall,
   resolvesNext,
   stub,
-} from 'https://deno.land/std@0.149.0/testing/mock.ts';
+} from 'std/testing/mock.ts';
 import csvLoader, { isNumeric } from './csv-loader.ts';
 
-Deno.test('url test', async (t) => {
+Deno.test('url test', async () => {
   const fakeReadTextFile = stub(
     Deno,
     'readTextFile',
