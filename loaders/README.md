@@ -19,20 +19,20 @@ Any `.csv` files in `_data` directories will now be loaded with the CSV loader.
 
 ### Data structure
 
-Data is assumed to be columnar - i.e. all items in a column are of the same type.
+Data is assumed to be columnar, i.e. all items in a column are of the same type.
 On loading a CSV the loader will return data of the following format:
 
-```yaml
-header: 2D array of header names - allows for multi-row headers
-names: Header names, constructed by concatenating header rows per column
-data: Tabular data, converted to best guess of data type
-rows: Array of objects representing the rows of the data. Each row is an object with keys named per column, and the value being the value of the cell.
-columns: Object with a property per column name. The value of the property is an array of the values in that column
-types: Guessed data type for column, either 'float' and 'string'
-raw: raw 2D array of data parsed from the file
-range: Object of objects with min and max properties (undefined for string)
-colnum: Object mapping names to column numbers
-```
+Key | Purpose
+----|------------
+`header` | 2D array of header names. Each level of the multi-row header is an array.
+`names` | Header names, constructed by concatenating header rows per column
+`data` | Tabular data, converted to best guess of data type
+`rows` | Array of objects representing the rows of the data. Each row is an object with keys named per column, and the value being the value of the cell.
+`columns` | Object with a property per column name. The value of the property is an array of the values in that column
+`types` | Guessed data type for column, either 'float' and 'string'
+`raw` | raw 2D array of data parsed from the file
+`range` | Object of objects with min and max properties (undefined for string)
+`colnum` | Object mapping names to column numbers
 
 As an example, the following CSV
 
@@ -77,7 +77,7 @@ The header and names properties will be set as follows:
 
 ```js
 {
-  header: [['A', 'a'], ['B', 'b'], ['C', 'c']],
+  header: [['A', 'B', 'C'], ['a', 'b', 'c']],
   names: ['A→a', 'B→b', 'C→c'],
   ...
 }
