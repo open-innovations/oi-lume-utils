@@ -6,11 +6,77 @@ import {
 } from 'std/testing/mock.ts';
 import csvLoader, { isNumeric } from './csv-loader.ts';
 
-Deno.test('url test', async () => {
+Deno.test('csv loader', async (t) => {
   const fakeReadTextFile = stub(
     Deno,
     'readTextFile',
     resolvesNext(['a,b\n1,2\n3,4'])
+  );
+  let result: any;
+  try {
+    result = await csvLoader('FAKE_PATH');
+  } finally {
+    fakeReadTextFile.restore();
+  }
+
+  await t.step('load file', () => {
+    assertSpyCall(fakeReadTextFile, 0, {
+      args: ['FAKE_PATH'],
+    });
+  });
+  await t.step('header is set', () => {
+    assertEquals(result.header, [['a', 'b']]);
+  });
+  await t.step('header names are set', () => {
+    assertEquals(result.names, ['a', 'b']);
+  });
+  await t.step('data key is set', () => {
+    assertEquals(result.data, [
+      [1, 2],
+      [3, 4],
+    ]);
+  });
+  await t.step('rows are defined', () => {
+    assertEquals(result.rows, [
+      { a: 1, b: 2 },
+      { a: 3, b: 4 },
+    ]);
+  });
+  await t.step('columns are defined', () => {
+    assertEquals(result.columns, {
+      a: [1, 3],
+      b: [2, 4],
+    });
+  });
+  await t.step('types are defined', () => {
+    assertEquals(result.types, ['float', 'float']);
+  });
+  await t.step('raw is set', () => {
+    assertEquals(result.raw, [
+      ['a', 'b'],
+      ['1', '2'],
+      ['3', '4'],
+    ]);
+  });
+  await t.step('range is set', () => {
+    assertEquals(result.range, {
+      a: {max: 3, min: 1},
+      b: {max: 4, min: 2},
+    });
+  });
+  await t.step('colnum is set', () => {
+    assertEquals(result.colnum, {
+      b: 1,
+      a: 0,
+    });
+  });
+});
+
+Deno.test('type guessing', async () => {
+  const fakeReadTextFile = stub(
+    Deno,
+    'readTextFile',
+    resolvesNext(['float,string,mixed,missing\n---\n1,A,0,\n3,B,C,'])
   );
   let result;
   try {
@@ -19,25 +85,8 @@ Deno.test('url test', async () => {
     fakeReadTextFile.restore();
   }
 
-  assertSpyCall(fakeReadTextFile, 0, {
-    args: ['FAKE_PATH'],
-  });
-
-  assertEquals(result.header, [['a', 'b']]);
-  assertEquals(result.names, ['a', 'b']);
-  assertEquals(result.data, [
-    [1, 2],
-    [3, 4],
-  ]);
-  assertEquals(result.rows, [
-    { a: 1, b: 2 },
-    { a: 3, b: 4 },
-  ]);
-  assertEquals(result.columns, {
-    a: [1, 3],
-    b: [2, 4],
-  });
-});
+  assertEquals(result.types, ['float', 'string', 'string', 'string']);
+})
 
 Deno.test('handle multi-line headers', async () => {
   const fakeReadTextFile = stub(
