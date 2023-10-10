@@ -1,56 +1,16 @@
 # oi-lume-utils
 
-> Useful utilities for the Lume SSG
+![Custom badge](https://img.shields.io/endpoint?url=https%3A%2F%2Fdeno-visualizer.danopia.net%2Fshields%2Flatest-version%2Fx%2Foi_lume_utils)
+![Custom badge](https://img.shields.io/endpoint?url=https%3A%2F%2Fdeno-visualizer.danopia.net%2Fshields%2Fdep-count%2Fx%2Foi_lume_utils/deps.ts)
+![Custom badge](https://img.shields.io/endpoint?url=https%3A%2F%2Fdeno-visualizer.danopia.net%2Fshields%2Fupdates%2Fx%2Foi_lume_utils%2Fmod.ts)
 
-[![](https://data.jsdelivr.com/v1/package/gh/open-innovations/oi-lume-utils/badge)](https://www.jsdelivr.com/package/gh/open-innovations/oi-lume-utils)
+This is a small collection of utilities for the [Lume static site generator](https://lume.land).
 
-## loaders
+## Loaders
 
-### csv-loader
+Lume [loaders](https://lume.land/docs/core/loaders/) allow new file types to be loaded as data or pages. See the [loaders README](./loaders/README.md) for more details of the loaders in this repository.
 
-Usage:
+## Processors
 
-```js
-import csvLoader from 'https://cdn.jsdelivr.net/gh/open-innovations/oi-lume-utils@<version>/loaders/csv-loader.ts';
+Lume [processors](https://lume.land/docs/core/processors/) allow transformation of page content after the page is rendered. See the [processors README](./processors/README.md) for more details of the processors in this repository.
 
-site.loader(['.csv'], csvLoader);
-```
-
-TODO - Documentation!
-
-## processors
-
-This library includes a series of processors for use in Lume.
-
-### auto-dependency
-
-Adds script headers to generated pages based on the inclusion of `data-dependencies` attributes. Each dependency is only included once.
-
-Annotations such as this:
-
-```html
-<div data-dependencies='/js/optional-script.js'>...</div>
-```
-
-or to specify multiple dependencies
-
-```html
-<div data-dependencies='/js/optional-script.js, /js/another-script.js'>...</div>
-```
-
-Will result in the following being added to the head
-
-```html
-<script src='/js/optional-script.js' data-auto-dependency=true></script>
-```
-
-To configure this procesor, add the following to `_config.js` (or `_config.ts`, if you're that way inclined).
-
-```js
-import autoDependency from 'https://cdn.jsdelivr.net/gh/open-innovations/oi-lume-utils@<version>/processors/auto-dependency.ts';
-
-site.process(['.html'], autoDependency)
-```
-
-NB - if you are using the [`base_path` plugin](https://lume.land/plugins/base_path/), make sure that is loaded after this processor,
-so any local absolute script URLs are properly transformed.
