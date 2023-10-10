@@ -4,15 +4,15 @@ The following loaders are defined in this repository.
 
 ## CSV Loader
 
-The CSV loader is a highly opinionated loader of CSV files.
-For many uses, the standard [Sheets plugin](https://lume.land/plugins/sheets/) is worth a look.
+The CSV loader is a highly opinionated loader of CSV files. For many uses, the
+standard [Sheets plugin](https://lume.land/plugins/sheets/) is worth a look.
 
 ### Using the CSV loader
 
 ```js
-import csvLoader from 'oi_lume_utils/loaders/csv-loader.ts';
+import csvLoader from "oi_lume_utils/loaders/csv-loader.ts";
 
-site.loadData(['.csv'], csvLoader);
+site.loadData([".csv"], csvLoader);
 ```
 
 Any `.csv` files in `_data` directories will now be loaded with the CSV loader.
@@ -22,17 +22,17 @@ Any `.csv` files in `_data` directories will now be loaded with the CSV loader.
 Data is assumed to be columnar, i.e. all items in a column are of the same type.
 On loading a CSV the loader will return data of the following format:
 
-Key | Purpose
-----|------------
-`header` | 2D array of header names. Each level of the multi-row header is an array.
-`names` | Header names, constructed by concatenating header rows per column
-`data` | Tabular data, converted to best guess of data type
-`rows` | Array of objects representing the rows of the data. Each row is an object with keys named per column, and the value being the value of the cell.
-`columns` | Object with a property per column name. The value of the property is an array of the values in that column
-`types` | Guessed data type for column, either 'float' and 'string'
-`raw` | raw 2D array of data parsed from the file
-`range` | Object of objects with min and max properties (undefined for string)
-`colnum` | Object mapping names to column numbers
+| Key       | Purpose                                                                                                                                          |
+| --------- | ------------------------------------------------------------------------------------------------------------------------------------------------ |
+| `header`  | 2D array of header names. Each level of the multi-row header is an array.                                                                        |
+| `names`   | Header names, constructed by concatenating header rows per column                                                                                |
+| `data`    | Tabular data, converted to best guess of data type                                                                                               |
+| `rows`    | Array of objects representing the rows of the data. Each row is an object with keys named per column, and the value being the value of the cell. |
+| `columns` | Object with a property per column name. The value of the property is an array of the values in that column                                       |
+| `types`   | Guessed data type for column, either 'float' and 'string'                                                                                        |
+| `raw`     | raw 2D array of data parsed from the file                                                                                                        |
+| `range`   | Object of objects with min and max properties (undefined for string)                                                                             |
+| `colnum`  | Object mapping names to column numbers                                                                                                           |
 
 As an example, the following CSV
 
@@ -62,9 +62,9 @@ will be loaded as:
 }
 ```
 
-By default, it is assumed that there is a single line header.
-The loader will search for the string `---` at the start of a line and use anything prior to that as a header.
-For a CSV like this:
+By default, it is assumed that there is a single line header. The loader will
+search for the string `---` at the start of a line and use anything prior to
+that as a header. For a CSV like this:
 
 ```
 A,B,C
