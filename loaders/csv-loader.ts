@@ -88,6 +88,10 @@ export default async function csvLoader(
 
   const headerRowCount = separatorRow > 1 ? separatorRow : 1;
 
+  if (raw.length <= headerRowCount) {
+    throw new Error(`File has no data: ${path}`);
+  }
+
   // Grab the header
   const header = raw.slice(0, headerRowCount);
   // Construct the column names by concatenating columns
