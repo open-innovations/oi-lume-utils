@@ -75,6 +75,7 @@ function typeConvert(value: string, type: string): string | number {
  */
 export default async function csvLoader(
   path: string,
+  basic: boolean,
 ): Promise<CSVLoaderResult> {
   const text = await Deno.readTextFile(path);
   let raw = parse(text);
@@ -162,15 +163,24 @@ export default async function csvLoader(
     {},
   );
 
-  return {
-    header,
-    names,
-    data,
-    rows,
-    columns,
-    types,
-    raw,
-    range: ranges,
-    colnum,
-  };
+  if(basic){
+	  return {
+		rows,
+		types,
+		range: ranges,
+		colnum,
+	  };
+  }else{
+	  return {
+		header,
+		names,
+		data,
+		rows,
+		columns,
+		types,
+		raw,
+		range: ranges,
+		colnum,
+	  };	  
+  }
 }
