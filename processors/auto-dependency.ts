@@ -5,24 +5,15 @@
  * @param document
  * @returns
  */
-export function createElement(dependency: string, document: any) {
+export function createElement(dependency: string) {
   // If the dependency contains .css
   if (dependency.indexOf(".css") > 0) {
     // Create a new link element
-    const newElement = document.createElement("link");
-    // Set the src attribute
-    newElement.setAttribute("href", dependency);
-    newElement.setAttribute("rel", "stylesheet");
-    // Return the element
-    return newElement;
+    return `<link href="${dependency}" rel="stylesheet" data-auto-dependency=true>`
   }
+
   // Default action (note early returns above)
-  // Create a new script element
-  const newElement = document.createElement("script");
-  // Set the src attribute
-  newElement.setAttribute("src", dependency);
-  // Return the element
-  return newElement;
+  return `<script src="${dependency}" data-auto-dependency=true></script>`;
 }
 
 /**
@@ -37,21 +28,19 @@ export function createElement(dependency: string, document: any) {
  */
 export default function (page: any) {
   // Search for all elements on page with a data-dependencies attribute and turn into an Array
-  const elementsWithDependencies = Array.from(
-    page.document.querySelectorAll("[data-dependencies]"),
-  );
+  const dependencies = [...page.content.matchAll(/data-dependencies=["'](.*?)["']/g)];
+  
   // If none found, finish processing
-  if (elementsWithDependencies.length === 0) return;
+  if (dependencies.length === 0) return;
 
   // For each element in the list,
   // get data-dependencies attribute,
   //   split the string each list (to allow for multiple dependencies)
   //   and trim whitespace
   // then flatten the list (un-nest lists)
-  const fullDependencyList = elementsWithDependencies
-    .map((element: any) =>
-      element
-        .getAttribute("data-dependencies")
+  const fullDependencyList = dependencies
+    .map(([_match, value, _rest]) => 
+      value
         .split(",")
         .map((dependency: string) => dependency.trim())
     )
@@ -65,10 +54,8 @@ export default function (page: any) {
   // For each deduplicated depdency
   deduplicatedDependencies.forEach((dependency) => {
     // Create the new element by calling createElement
-    const newElement = createElement(dependency, page.document);
-    // And set a data-auto-depdendency attribute
-    newElement.setAttribute("data-auto-dependency", true);
+    const newElement = createElement(dependency);
     // Then append to the document head
-    page.document.head.appendChild(newElement);
+    page.content = page.content.replace(/<\/head>/, `${newElement}</head>`);
   });
 }
