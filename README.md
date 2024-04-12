@@ -13,13 +13,13 @@ The library is published at https://deno.land/x/oi_lume_utils.
 There is no top-level module, instead you should import the functions direct from the
 underlying module files. Generally, the main function is exported as the default, so you should be able to import as a name that suits you.
 
-As an example, to import the CSV loader from v0.3.1 of the library,
+As an example, to import the CSV loader from v0.4.0 of the library,
 use the following import.
 
 ```ts
-import c from "https://deno.land/x/oi_lume_utils@v0.3.1/loaders/csv-loader.ts";
+import csvLoader from "https://deno.land/x/oi_lume_utils@v0.4.0/loaders/csv-loader.ts";
 
-site.loader(['.csv'], c);
+site.loader(['.csv'], csvLoader());
 ```
 
 For detailed usage instructions, refer to the README files located closest to the

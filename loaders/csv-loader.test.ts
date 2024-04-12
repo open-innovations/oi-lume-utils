@@ -1,6 +1,23 @@
-import { assertEquals } from "std/assert/mod.ts";
+import { assertEquals, assertThrows } from "std/assert/mod.ts";
 import { assertSpyCall, resolvesNext, stub } from "std/testing/mock.ts";
 import csvLoader, { CSVLoaderResult, isNumeric } from "./csv-loader.ts";
+
+const callLoaderFull = () =>
+  csvLoader()("FAKE_PATH") as Promise<CSVLoaderResult>;
+
+Deno.test("registration", async (t) => {
+  await t.step(
+    "Throw if called directly with string",
+    () => {
+      const fn = () => (csvLoader as any)("FAKE PATH");
+      assertThrows(
+        fn,
+        TypeError,
+        "csvLoader must be registered as a function call like",
+      );
+    },
+  );
+});
 
 Deno.test("csv loader", async (t) => {
   const fakeReadTextFile = stub(
@@ -10,7 +27,7 @@ Deno.test("csv loader", async (t) => {
   );
   let result: CSVLoaderResult;
   try {
-    result = await csvLoader("FAKE_PATH");
+    result = await callLoaderFull();
   } finally {
     fakeReadTextFile.restore();
   }
@@ -76,7 +93,7 @@ Deno.test("type guessing", async () => {
   );
   let result;
   try {
-    result = await csvLoader("FAKE_PATH");
+    result = await callLoaderFull();
   } finally {
     fakeReadTextFile.restore();
   }
@@ -92,7 +109,7 @@ Deno.test("handle multi-line headers", async () => {
   );
   let result;
   try {
-    result = await csvLoader("FAKE_PATH");
+    result = await callLoaderFull();
   } finally {
     fakeReadTextFile.restore();
   }
@@ -110,7 +127,7 @@ Deno.test("default header length to 1", async () => {
   );
   let result;
   try {
-    result = await csvLoader("FAKE_PATH");
+    result = await callLoaderFull();
   } finally {
     fakeReadTextFile.restore();
   }
@@ -128,7 +145,7 @@ Deno.test("clip to width of first line", async () => {
   );
   let result;
   try {
-    result = await csvLoader("FAKE_PATH");
+    result = await callLoaderFull();
   } finally {
     fakeReadTextFile.restore();
   }
@@ -145,7 +162,7 @@ Deno.test("rejects empty strings", async () => {
   );
   let result;
   try {
-    result = await csvLoader("FAKE_PATH");
+    result = await callLoaderFull();
   } finally {
     fakeReadTextFile.restore();
   }

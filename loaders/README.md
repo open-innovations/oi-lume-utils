@@ -12,10 +12,27 @@ standard [Sheets plugin](https://lume.land/plugins/sheets/) is worth a look.
 ```js
 import csvLoader from "oi_lume_utils/loaders/csv-loader.ts";
 
-site.loadData([".csv"], csvLoader);
+site.loadData([".csv"], csvLoader());
 ```
 
 Any `.csv` files in `_data` directories will now be loaded with the CSV loader.
+
+The loader can also be registered with options, as follows:
+
+```js
+site.loadData(
+  [".csv"],
+  csvLoader({
+    basic: true,
+  }),
+);
+```
+
+Options are as follows:
+
+| Option  | Description                                                                                              | Default |
+| ------- | -------------------------------------------------------------------------------------------------------- | ------- |
+| `basic` | A boolean flag which, if set to `true` returns a basic version of the parsed CSV. More memory efficient. | `false` |
 
 ### Data structure
 
