@@ -13,7 +13,7 @@ export function createElement(dependency: string) {
   }
 
   // Default action (note early returns above)
-  return `<script src="${dependency}" data-auto-dependency=true></script>`;
+  return `<script src="${dependency}" defer data-auto-dependency=true></script>`;
 }
 
 /**
